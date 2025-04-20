@@ -14,8 +14,6 @@ public class PageController {
 	// The root URL ("/") is handled by Spring Security and redirected to /login by
 	// default if security is enabled.
 
-
-
 	@GetMapping("/")
 	public String home() {
 		return "index"; // "index"라는 뷰를 반환 (예: index.html)
@@ -23,23 +21,20 @@ public class PageController {
 	// @GetMapping=>페이지를 조회 및 이동할 때 GetMapping을 써서 이동
 
 	// Handles requests to the registration page at localhost:8080/register
+
 	@GetMapping("/register")
 	public String registerPage() {
-		//System.out.println(">>> registerPage() 호출됨");
+		// System.out.println(">>> registerPage() 호출됨");
 		return "register/index";
 	}
 
+	// =>localhost:8080/loginPage
 
-	//=>localhost:8080/loginPage
-	
-  @GetMapping("/loginPage")
+	@GetMapping("/loginPage")
 	public String loginPage() {
-		//System.out.println(">>> loginPage() 호출됨");
+		// System.out.println(">>> loginPage() 호출됨");
 		return "login/index";
 	}
-
-
-
 
 }
 // Note: The base package is com.canesblack.spring.project1.
@@ -48,4 +43,3 @@ public class PageController {
 
 // com.canesblack.spring.project1 이게 바로 base package이고, @ComponentScan은 생략가능합니다
 // 모든 패키지는 com.canesblack.spring.project1 하위에 존재해야합니다
-
