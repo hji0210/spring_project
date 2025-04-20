@@ -14,7 +14,7 @@
       <h2>로그인</h2>
       <!--pageContext.request.contextPath => localhost:8080-->
       <!--localhost:8080/login으로 username!23q&password=12312-->
-      <!--회원가입,로그인시에는 무조건 post방식 -->
+      <!-- 회원가입,로그인시에는 무조건 post방식 -->
 
 
       <form action="${pageContext.request.contextPath}/login" method="post">

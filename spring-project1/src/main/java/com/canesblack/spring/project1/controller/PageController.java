@@ -42,4 +42,4 @@ public class PageController {
 // package.
 
 // com.canesblack.spring.project1 이게 바로 base package이고, @ComponentScan은 생략가능합니다
-// 모든 패키지는 com.canesblack.spring.project1 하위에 존재해야합니다
+// 모든 패키지는 com.canesblack.spring.project1 하위에 존재해야합니다.!
