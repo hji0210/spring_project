@@ -1,14 +1,11 @@
 package com.canesblack.spring.project1.config;
 
-import com.canesblack.spring.project1.controller.PageController;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,71 +15,61 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.SecurityFilterChain;
+
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource; // 올바른 import 추가
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final CorsConfigurationSource corsConfigurationSource;
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+                // CSRF 해킹 기법으로부터 보호 조치
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                // CORS는 특정 서버로만 데이터를 넘길 수 있도록 설정
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                // 세션 설정
+                .authorizeHttpRequests(autz -> autz
+                        .requestMatchers("/", "/loginPage", "/logout", "/noticeCheckPage", "/register", "/menu/all")
+                        .permitAll()
+                        .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                        .requestMatchers("/resources/**", "/WEB-INF/**").permitAll()
+                        .requestMatchers("/noticeAdd", "/noticeModifyPage").hasAnyAuthority("ADMIN", "MANAGER")
+                        .requestMatchers(HttpMethod.POST, "/menu/add").hasAnyAuthority("ADMIN", "MANAGER")
+                        .requestMatchers(HttpMethod.POST, "/menu/update").hasAnyAuthority("ADMIN", "MANAGER")
+                        .requestMatchers(HttpMethod.DELETE, "/menu/delete").hasAnyAuthority("ADMIN", "MANAGER")
+                        .anyRequest().authenticated())
+                .formLogin(login -> login.loginPage("/loginPage") // 로그인 페이지 URL
+                        .loginProcessingUrl("/login") // 로그인 처리 URL
+                        .failureUrl("/loginPage?error=true") // 로그인 실패 시 리다이렉트 URL
+                        .usernameParameter("username") // 사용자 이름 파라미터
+                        .passwordParameter("password") // 비밀번호 파라미터
+                        .successHandler(authenticationSuccessHandler()) // 성공 핸들러
+                        .permitAll() // 모든 사용자에게 로그인 페이지 접근 허용
+                )
+                .logout(logout -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // 로그아웃 요청 URL 매핑
+                        .logoutSuccessUrl("/") // 로그아웃 성공 시 리다이렉트 URL
+                        .invalidateHttpSession(true) // 로그아웃 시 세션 무효화
+                        .deleteCookies("JSESSIONID") // 로그아웃 시 쿠키 삭제
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            // 로그아웃 성공 시 추가 작업 수행 후 리다이렉트
+                            response.sendRedirect(request.getContextPath() + "/");
+                        })
+                        .permitAll() // 모든 사용자에게 로그아웃 접근 허용
+                );
 
-    private final PageController pageController;
-    private final AuthenticationSuccessHandler authenticationSuccessHandler;
-
-    SecurityConfig(AuthenticationSuccessHandler authenticationSuccessHandler, PageController pageController, CorsConfigurationSource corsConfigurationSource) {
-        this.authenticationSuccessHandler = authenticationSuccessHandler;
-        this.pageController = pageController;
-        this.corsConfigurationSource = corsConfigurationSource;
+        return http.build(); // Return the SecurityFilterChain
     }
-
-		@Bean
-		public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-			http
-				.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
-				// CSRF 해킹 기법으로부터 보호 조치
-				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
-				// CORS는 특정 서버로만 데이터를 넘길 수 있도록 설정
-				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-				// 세션 설정
-				.authorizeHttpRequests(autz -> autz
-					.requestMatchers("/", "/loginPage", "/logout", "/noticeCheckPage", "/register", "/menu/all").permitAll()
-					.requestMatchers(HttpMethod.POST, "/login").permitAll()
-					.requestMatchers("/resource/**", "/WEB-INF/**").permitAll()
-					.requestMatchers("/noticeAdd", "/noticeModifyPage").hasAnyAuthority("ADMIN", "MANAGER")
-					.requestMatchers(HttpMethod.POST, "/menu/add").hasAnyAuthority("ADMIN", "MANAGER")
-					.requestMatchers(HttpMethod.POST, "/menu/update").hasAnyAuthority("ADMIN", "MANAGER")
-					.requestMatchers(HttpMethod.DELETE, "/menu/delete").hasAnyAuthority("ADMIN", "MANAGER")
-					.anyRequest().authenticated()
-				)
-				.formLogin(login -> 
-					login.loginPage("/loginPage") // 로그인 페이지 URL
-						.loginProcessingUrl("/login") // 로그인 처리 URL
-						.failureUrl("/loginPage?error=true") // 로그인 실패 시 리다이렉트 URL
-						.usernameParameter("username") // 사용자 이름 파라미터
-						.passwordParameter("password") // 비밀번호 파라미터
-						.successHandler(authenticationSuccessHandler()) // 성공 핸들러
-						.permitAll() // 모든 사용자에게 로그인 페이지 접근 허용
-				);
-
-
-			    .logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))	
-				 .logoutSuccessUrl("/") // 로그아웃 성공 시 리다이렉트 URL
-					.invalidateHttpSession(true) // 로그아웃 시 세션 무효화
-					.deleteCookies("JSESSIONID") // 로그아웃 시 쿠키 삭제
-					.logoutSuccessHandler((request, response, authentication) -> {
-					.permitAll()
-					
-					);// 로그아웃 성공 시 리다이렉트 URL
-
-
-
-			return http.build(); // Return the SecurityFilterChain
-		}
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -92,7 +79,7 @@ public class SecurityConfig {
         corsConfiguration.addAllowedMethod("*"); // 모든 HTTP 메서드 허용
         corsConfiguration.addAllowedHeader("*"); // 모든 헤더 허용
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(); // 올바른 클래스 사용
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration); // 모든 경로에 대해 CORS 설정 적용
         return source;
     }
@@ -102,11 +89,11 @@ public class SecurityConfig {
         return new SimpleUrlAuthenticationSuccessHandler() {
             @Override
             public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                                Authentication authentication) throws IOException, ServletException {
+                    Authentication authentication) throws IOException, ServletException {
                 HttpSession session = request.getSession(); // Retrieve session
                 boolean isManager = authentication.getAuthorities().stream()
-                    .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ADMIN")
-                        || grantedAuthority.getAuthority().equals("MANAGER")); // Check if user is manager
+                        .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ADMIN")
+                                || grantedAuthority.getAuthority().equals("MANAGER")); // Check if user is manager
                 if (isManager) {
                     session.setAttribute("MANAGER", true); // Add isManager attribute to session
                 }
