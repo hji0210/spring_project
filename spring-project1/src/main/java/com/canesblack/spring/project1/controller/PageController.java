@@ -1,10 +1,9 @@
 package com.canesblack.spring.project1.controller;
 
-import org.springframework.context.annotation.Configuration;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 //@Component 한마디로 스프링빈으로 등록하기 위한 라벨링 작업
 @Controller
@@ -38,9 +37,7 @@ public class PageController {
 	}
 
 }
-// Note: The base package is com.canesblack.spring.project1.
-// @ComponentScan can be omitted as all packages should be under this base
-// package.
+
 
 // com.canesblack.spring.project1 이게 바로 base package이고, @ComponentScan은 생략가능합니다
-// 모든 패키지는 com.canesblack.spring.project1 하위에 존재해야합니다.!
+// 모든 패키지는 com.canesblack.spring.project1 하위에 존재해야합니다!

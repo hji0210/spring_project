@@ -33,7 +33,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
-                // CSRF 해킹 기법으로부터 보호 조치
+                // CSRF 해킹 기법으로부터 보호치
+                //=> 나중에 따로 HTML_자바스크립트(프론트영역->백엔드 영역으로 데이터가 넘어갈 때) CSRF 보호 기능도 넣어놓을 것
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 // CORS는 특정 서버로만 데이터를 넘길 수 있도록 설정
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
