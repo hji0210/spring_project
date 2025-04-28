@@ -1,8 +1,14 @@
 package com.canesblack.spring.project1.controller;
 
 
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
 
 
 //@Component 한마디로 스프링빈으로 등록하기 위한 라벨링 작업
@@ -22,9 +28,16 @@ public class PageController {
 
 	// Handles requests to the registration page at localhost:8080/register
 
-	@GetMapping("/register")
-	public String registerPage() {
+	@GetMapping("/registerPage")
+	//request는 통로
+	public String registerPage(HttpServletRequest request,Model model) {
 		// System.out.println(">>> registerPage() 호출됨");
+
+
+		CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+    model.addAttribute("_csrf", csrfToken);
+
+
 		return "register/index";
 	}
 

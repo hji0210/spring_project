@@ -15,7 +15,11 @@
         <div class="register-container">
           <h2>회원가입</h2>
           <form action="${pageContext.request.contextPath}/register" method="post">
-            <div class="input-group">
+            <!---CSRF 토근 추가-->
+            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+
+
+            <div class="input-group" >
               <label for="username">아이디</label>
               <input type="text" id="username" name="username" required />
             </div>
