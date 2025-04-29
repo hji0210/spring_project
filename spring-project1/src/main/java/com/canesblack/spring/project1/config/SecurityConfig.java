@@ -67,7 +67,7 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))  // 로그아웃 요청 URL 매핑
                         .logoutSuccessUrl("/")  // 로그아웃 성공 시 리다이렉트 URL
-                        .invalidateHttpSession(true)  // 로그아웃 시 세션 무효화
+                        .invalidateHttpSession(true)  // 로그아웃 시 세션 무효화 => 세션공간 안에 있던 데이터가 사라짐
                         .deleteCookies("JSESSIONID")  // 로그아웃 시 쿠키 삭제
                         .logoutSuccessHandler((request, response, authentication) -> {
                             // 로그아웃 성공 시 추가 작업 수행 후 리다이렉트
