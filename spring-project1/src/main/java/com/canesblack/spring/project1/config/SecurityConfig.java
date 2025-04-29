@@ -53,6 +53,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/menu/update").hasAnyAuthority("ADMIN", "MANAGER")  // 메뉴 수정은 관리자, 매니저만 허용
                         .requestMatchers(HttpMethod.DELETE, "/menu/delete").hasAnyAuthority("ADMIN", "MANAGER")  // 메뉴 삭제는 관리자, 매니저만 허용
                         .anyRequest().authenticated()  // 그 외의 요청은 인증된 사용자만 접근 허용
+                        //로그인을 해야지만 접근이 가능하ㅔ끔!그렇기 떄문에 로그인 페이지로 자동 이동됩니다.
                 )
                 .formLogin(login -> login
                         .loginPage("/loginPage")  // 로그인 페이지 URL
@@ -72,10 +73,11 @@ public class SecurityConfig {
                             // 로그아웃 성공 시 추가 작업 수행 후 리다이렉트
                             response.sendRedirect(request.getContextPath() + "/");
                         })
-                        .permitAll()  // 모든 사용자에게 로그아웃 접근 허용
+                        .permitAll()  // 모든 사용자에게 로그아웃 접근 허용, 위 기능을 수행시키려면 이 메서드 실행
                 );
 
         return http.build();  // SecurityFilterChain 반환
+        //최종 http에 적용시킬 떄 사용하는 메서드
     }
 
     @Bean
@@ -102,7 +104,10 @@ public class SecurityConfig {
                         .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ADMIN")
                                 || grantedAuthority.getAuthority().equals("MANAGER"));  // 사용자가 ADMIN 또는 MANAGER 권한이 있는지 확인
                 if (isManager) {
-                    session.setAttribute("MANAGER", true);  // 관리자이면 세션에 MANAGER 속성 추가
+                    //세션에다가 로그인한 아이디를 저장한다.
+                    session.setAttribute("MANAGER", true); 
+                     // 관리자이면 세션에 MANAGER 속성 추가
+                     //세션에다가 로그인됬나 여부를 저장
                 }
                 session.setAttribute("username", authentication.getName());  // 세션에 사용자 이름 저장
                 session.setAttribute("isAuthenticated", true);  // 인증된 사용자임을 세션에 저장
@@ -112,8 +117,9 @@ public class SecurityConfig {
         };
     }
 
+    //스프링프레임워크의 비밀번호 기능능
     @Bean      
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();  // BCrypt 패스워드 인코더 사용
+        return new BCryptPasswordEncoder();  
     }
 }

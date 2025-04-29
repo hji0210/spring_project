@@ -1,15 +1,12 @@
 package com.canesblack.spring.project1.controller;
 
-
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
-
 
 //@Component 한마디로 스프링빈으로 등록하기 위한 라벨링 작업
 @Controller
@@ -29,14 +26,12 @@ public class PageController {
 	// Handles requests to the registration page at localhost:8080/register
 
 	@GetMapping("/registerPage")
-	//request는 통로
-	public String registerPage(HttpServletRequest request,Model model) {
+	// request는 통로
+	public String registerPage(HttpServletRequest request, Model model) {
 		// System.out.println(">>> registerPage() 호출됨");
 
-
 		CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-    model.addAttribute("_csrf", csrfToken);
-
+		model.addAttribute("_csrf", csrfToken);
 
 		return "register/index";
 	}
@@ -44,13 +39,17 @@ public class PageController {
 	// =>localhost:8080/loginPage
 
 	@GetMapping("/loginPage")
-	public String loginPage() {
-		// System.out.println(">>> loginPage() 호출됨");
+	// request는 통로
+	public String loginPage(HttpServletRequest request, Model model) {
+		// System.out.println(">>> registerPage() 호출됨");
+
+		CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+		model.addAttribute("_csrf", csrfToken);
+
 		return "login/index";
 	}
 
 }
-
 
 // com.canesblack.spring.project1 이게 바로 base package이고, @ComponentScan은 생략가능합니다
 // 모든 패키지는 com.canesblack.spring.project1 하위에 존재해야합니다!

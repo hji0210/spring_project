@@ -19,6 +19,10 @@
   <div id="login-container">
     <h2>로그인</h2>
     <form action="${pageContext.request.contextPath}/login" method="post">
+
+          <!---CSRF 토근 추가-->
+          <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+
       <div class="input-group">
         <label for="username">아이디</label>
         <input type="text" id="username" name="username" required />
