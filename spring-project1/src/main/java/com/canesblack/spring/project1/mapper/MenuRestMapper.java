@@ -32,7 +32,7 @@ public interface MenuRestMapper {
 
   @Insert("INSERT INTO backend_spring_project1.menu (memID, title, content, writer, indate) VALUES (#{memID}, #{title}, #{content}, #{writer}, #{indate}")
   //count는 일반적으로 게시글 클릭할 때마다 자동으로 조회수가 증감되고 몇명이 봤는지 확인하는 용도라 넣을 필요가 없다. 
-
+   public void boardInsert(Menu menu);
  
 
 
