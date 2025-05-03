@@ -48,7 +48,7 @@ public class SecurityConfig {
                         .permitAll()  // 누구나 접근 허용
                         .requestMatchers(HttpMethod.POST, "/login", "/register").permitAll()  // POST 요청도 누구나 허용
                         .requestMatchers("/resources/**", "/WEB-INF/**").permitAll()  // 자원 파일에 접근 허용
-                        .requestMatchers("/noticeAdd", "/noticeModifyPage").hasAnyAuthority("ADMIN", "MANAGER")  // 관리자, 매니저만 접근 허용
+                        .requestMatchers("/noticeAddPage", "/noticeModifyPage").hasAnyAuthority("ADMIN", "MANAGER")  // 관리자, 매니저만 접근 허용
                         .requestMatchers(HttpMethod.POST, "/menu/add").hasAnyAuthority("ADMIN", "MANAGER")  // 메뉴 추가는 관리자, 매니저만 허용
                         .requestMatchers(HttpMethod.POST, "/menu/update").hasAnyAuthority("ADMIN", "MANAGER")  // 메뉴 수정은 관리자, 매니저만 허용
                         .requestMatchers(HttpMethod.DELETE, "/menu/delete").hasAnyAuthority("ADMIN", "MANAGER")  // 메뉴 삭제는 관리자, 매니저만 허용
