@@ -3,6 +3,7 @@ package com.canesblack.spring.project1.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -75,9 +76,9 @@ public class PageController {
 //세션 => 백엔드에서 프론트로 데이터를 넘기는데 서버에 계속 데이터가 남아있음
  //프론트 단에서도 계속해서 그 데이터를 가지고 유지할 수 있다. 한번 로그인하면 로그아웃할 때까지 계속 세션은 유지됨
 @GetMapping("/noticeAddPage")
-public String noticeAddPage(Model model, Authentication authentication) {
-	  	String writer = userService.findWriter(authentication.getName());
-			model.addAttribute("writer", writer);
+public String noticeAddPage() {
+	//springConfig => session에서 username가져와서 접근 가능 
+	 
 			return "noticeAdd/index";
 
 
@@ -85,6 +86,6 @@ public String noticeAddPage(Model model, Authentication authentication) {
 
 
 
-
+}
 }
 

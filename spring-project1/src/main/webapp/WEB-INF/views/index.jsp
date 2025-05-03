@@ -42,7 +42,6 @@
 </div> 
 
 <%@include file="/WEB-INF/views/common/footer.jsp" %>
-<%@include file="/WEB-INF/views/common/footer.jsp" %>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/script.js"></script>
 
 </body>

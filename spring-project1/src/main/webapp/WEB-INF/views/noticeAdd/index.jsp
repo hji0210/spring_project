@@ -1,54 +1,62 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>로그인 페이지</title>
-  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/login/style.css"/>
-  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/common/header.css"/>
-
-
-
-
+<meta charset="UTF-8">
+<title>카네스블랙카페</title>
+<meta name="_csrf" content="${_csrf.token}">
+<meta name="_csrf_header" content="${_csrf.headerName}">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/noticeAdd/style.css"/>
 </head>
 <body>
 
 <%@include file="/WEB-INF/views/common/header.jsp" %>
-
-<div id="login-container-wrapper">
-  <div id="login-container">
-    <h2>로그인</h2>
+   
 
 
- <!--로그인 실패 시 오류 메시지 표시-->
- <c:if test="${not empty param.error}">
-  <p style="color:red;">아이디 또는 비밀번호가 잘못되었습니다.</p>
-</c:if>
+<!--javascript코드로 form태그의 action기능을 대신하는 기능을 만듬.일종의 rest api 기능 방식의 일부분--->
+<form id="menuForm">
+   <div id="container">
+      <div id="content">
+    <div id="menuAdmin">
+      <h2 id="menuAdminH2">공지사항 작성</h2>
 
 
-    <!---localhost:8080/login-->
-    <form action="${pageContext.request.contextPath}/login" method="post">
+<!-- 
+  사용자에게 로그인된 아이디를 보여주기 위한 input 필드입니다.
+  value="${username}" : 서버(JSP)에서 전달받은 사용자 아이디를 입력창에 자동으로 채움
+  disabled : 사용자가 이 필드를 수정하지 못하도록 비활성화 (폼 전송 시 서버로 값도 전송되지 않음)
+-->
+<label for="memID">회원아이디</label>
+<input type="text" id="memID" name="memID" placeholder="회원아이디" maxlength="20" value="${username}" disabled>
+ <br>
+ <label for="title">제목</label>
+ <input type="text" id="title" name="title" placeholder="제목" maxlength="10"  >
+ <br>
+ <label for="content">내용</label>
+ <input type="text" id="content" name="content" placeholder="내용" maxlength="30"  >
+  <br>
+  <input type="hidden" id="writer" name="writer">
 
-          <!---CSRF 토근 추가-->
-          <input type="hidden" name="_csrf" value="${_csrf.token}"/>
 
-      <div class="input-group">
-        <label for="username">아이디</label>
-        <input type="text" id="username" name="username" required />
-      </div>
-      <div class="input-group">
-        <label for="password">비밀번호</label>
-        <input type="password" id="password" name="password" required />
-      </div>
-      <button type="submit" id="login-button">로그인</button>
-    </form>
-    <div id="register-link">
-      <a href="${pageContext.request.contextPath}/registerPage">회원가입</a>
-    </div>
-  </div>
+
+  <input type="hidden" id="indate" name="indate">
+  <input type="hidden" id="count" name="count">
+
+<!-- 
+  확인 버튼입니다. 
+  type="button" : 폼 제출 기능은 없고, JavaScript로 동작을 제어할 때 사용
+  id="buttonSubmit" : 자바스크립트에서 이 버튼을 제어하기 위해 ID 지정
+-->
+  <button type="button" id="buttonSubmit">확인</button>
+
 </div>
+</div>
+ 
 
+</form>
 <%@include file="/WEB-INF/views/common/footer.jsp" %>
 
-</body>
-</html>
+    </body>
+    </html>
