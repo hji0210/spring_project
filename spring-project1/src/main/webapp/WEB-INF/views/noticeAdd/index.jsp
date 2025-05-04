@@ -34,15 +34,16 @@
  <label for="title">제목</label>
  <input type="text" id="title" name="title" placeholder="제목" maxlength="10"  >
  <br>
- <label for="content">내용</label>
+ <label for="title">내용</label>
  <input type="text" id="content" name="content" placeholder="내용" maxlength="30"  >
   <br>
-  <input type="hidden" id="writer" name="writer">
-
+  <label for="title">작성자</label>
+  <input type="text" id="writer" name="writer" placeholder="작성자" maxlength="10" value="${writer}" disabled >
+  <br>
 
 
   <input type="hidden" id="indate" name="indate">
-  <input type="hidden" id="count" name="count">
+
 
 <!-- 
   확인 버튼입니다. 

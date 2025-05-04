@@ -76,10 +76,13 @@ public class PageController {
 //세션 => 백엔드에서 프론트로 데이터를 넘기는데 서버에 계속 데이터가 남아있음
  //프론트 단에서도 계속해서 그 데이터를 가지고 유지할 수 있다. 한번 로그인하면 로그아웃할 때까지 계속 세션은 유지됨
 @GetMapping("/noticeAddPage")
-public String noticeAddPage() {
+public String noticeAddPage(Model model,Authentication authentication) {
 	//springConfig => session에서 username가져와서 접근 가능 
-	 
-			return "noticeAdd/index";
+String writer = userService.findWriter(authentication.getName());
+// 로그인한 사용자의 이름을 가져옴
+
+	model.addAttribute("writer",writer);// writer 값을 JSP로 전달
+	return "noticeAdd/index";
 
 
 
