@@ -3,7 +3,7 @@ package com.canesblack.spring.project1.entity;
 public class Menu {
   private int idx;
   private String memID;
-  private String title;  
+  private String title;
   private String content;
   private String writer;
   private String indate;
@@ -66,28 +66,18 @@ public class Menu {
     this.count = count;
   }
 
-public Menu(){
+  public Menu() {
 
-}
+  }
 
-public Menu(int idx, String memID, String title, String content, String writer, String indate, int count) {
-  this.idx = idx;
-  this.memID = memID;
-  this.title = title;
-  this.content = content;
-  this.writer = writer;
-  this.indate = indate;
-  this.count = count;
-}
-
-Menu menu = new Menu();
-
- 
-
-
-
-
-
-
+  public Menu(int idx, String memID, String title, String content, String writer, String indate, int count) {
+    this.idx = idx;
+    this.memID = memID;
+    this.title = title;
+    this.content = content;
+    this.writer = writer;
+    this.indate = indate;
+    this.count = count;
+  }
 
 }

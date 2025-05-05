@@ -4,15 +4,18 @@ package com.canesblack.spring.project1.entity;
 
 public class User {
 
+
+
+	public User() {
+
+	}
+
 	private int idx;
 	private String username;
 	private String password;
 	private String writer;
 	private Role role;
 
-	public User() {
-
-	}
 
 	// 생성자
 	public User(int idx, String username, String password, String writer, Role role) {

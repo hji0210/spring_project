@@ -3,7 +3,6 @@ package com.canesblack.spring.project1.controller;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +13,7 @@ import com.canesblack.spring.project1.service.MenuRestService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -58,7 +57,7 @@ public class MenuRestController {
   }
 
 
-
+ 
   //2.메뉴(한 개의 게시판 생성) 생성 
   //생성은 postmapping으로 요청을 보내야 한다.
   //게시물 작성해서 작성버튼 누르면 서버측으로 데이터 넘어감

@@ -13,7 +13,7 @@
         예: http://localhost:8080/mycafe 라면 contextPath는 "/mycafe"
         따라서 전체 경로는 "/mycafe/resource/css/common/header.css"가 됩니다.
     --%>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resource/css/common/header.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/common/header.css">
 </head>
 <body>
 

@@ -78,7 +78,7 @@ public class PageController {
 @GetMapping("/noticeAddPage")
 public String noticeAddPage(Model model,Authentication authentication) {
 	//springConfig => session에서 username가져와서 접근 가능 
-String writer = userService.findWriter(authentication.getName());
+ String writer = userService.findWriter(authentication.getName());
 // 로그인한 사용자의 이름을 가져옴
 
 	model.addAttribute("writer",writer);// writer 값을 JSP로 전달

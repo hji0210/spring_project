@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resource/css/common/footer.css">
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/common/footer.css">
 </head>
 <body>
 
